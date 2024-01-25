@@ -45,7 +45,7 @@ public class Primes
         }
         else if (maxes.first() < n)
         {
-            maxes.pollFirst;
+            maxes.pollFirst();
             maxes.add(n);
         }
     }
