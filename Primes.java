@@ -5,6 +5,7 @@ import java.lang.Math;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.Callable;
@@ -17,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class Primes
 {
     private static final int NUM_THREADS = 8;
+    private static final int AMT_LARGEST = 10;
+
     static Scanner in = new Scanner(System.in);
 
     // Determines the primality of n.
@@ -34,6 +37,18 @@ public class Primes
         }
 
         return true;
+    }
+
+    // Updates the set storing the 10 maximum primes.
+    private synchronized static void updateMaxes(TreeSet<Integer> maxes, int n)
+    {
+        if (maxes.size() < AMT_LARGEST)
+            maxes.add(n);
+        else if (maxes.first() < n)
+        {
+            maxes.pollFirst();
+            maxes.add(n);
+        }
     }
 
     public static void main(String [] args)
@@ -66,6 +81,9 @@ public class Primes
 
         // Will be used to increment through odd numbers.
         AtomicInteger counter = new AtomicInteger(3);
+        // Holds a group of the largest primes found.
+        TreeSet<Integer> maxPrimes = new TreeSet<>();
+        maxPrimes.add(2); // We know the only even prime is in the range.
 
         // List of tasks for threads to do.
         ArrayList<FutureTask<PrimesInfo>> tasks = new ArrayList<FutureTask<PrimesInfo>>();
@@ -85,6 +103,7 @@ public class Primes
                         {
                             infoP.numPrimes++;
                             infoP.sumPrimes += cur;
+                            updateMaxes(maxPrimes, cur);
                         }
                         cur = counter.getAndAdd(2);
                     }
@@ -131,6 +150,9 @@ public class Primes
 
         long end = System.nanoTime();
         System.out.println((end - start) + " " + totalNumPrimes + " " + totalSumPrimes);
+        while (!maxPrimes.isEmpty())
+            System.out.print(maxPrimes.pollFirst() + " ");
+        System.out.println();
     }
 }
 
