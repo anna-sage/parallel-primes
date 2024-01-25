@@ -1,5 +1,5 @@
 // todo author and problem statement comment
-// Finds and prints all primes on an input-defined range.
+// Finds and prints all primes on a program-specified range.
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -12,12 +12,11 @@ import java.util.concurrent.FutureTask;
 public class Primes
 {
     private static final int NUM_THREADS = 8;
+    private static final int UPPER_LIMIT = 100000000;
     // Amount of maximum primes to track.
     private static final int AMT_LARGEST = 10;
 
-    static Scanner in = new Scanner(System.in);
-
-    // Determines the primality of n.
+    // Determines the primality of an odd number n.
     private static boolean isPrime(int n)
     {
         // Handle even numbers.
@@ -35,7 +34,6 @@ public class Primes
     }
 
     // Updates the set storing the 10 maximum primes.
-    // Any n passed in will be larger than the minimum number in the set?? (todo)
     private synchronized static void updateMaxes(TreeSet<Integer> maxes, int n)
     {
         // Add the value if the set has room or the value is larger than the smallest in the set.
@@ -52,14 +50,10 @@ public class Primes
 
     public static void main(String [] args)
     {
-        // Upper limit input validation.
-        int upLim = (int) Math.floor(in.nextDouble());
+        long start1 = System.nanoTime();
 
-        // Threaded approach.
-        long start = System.nanoTime();
-
-        // Take care of edge case. (todo)
-        if (upLim < 2)
+        // Safety check for valid upper limit.
+        if (UPPER_LIMIT < 2)
             System.out.println("There are no primes less than 2!");
 
         // Will be used to increment through odd numbers.
@@ -80,7 +74,7 @@ public class Primes
                     PrimesInfo infoP = new PrimesInfo();
 
                     int cur = counter.getAndAdd(2);
-                    while (cur <= upLim)
+                    while (cur <= UPPER_LIMIT)
                     {
                         if (isPrime(cur))
                         {
@@ -132,7 +126,7 @@ public class Primes
             }
         }
 
-        long end = System.nanoTime(); // (todo) right end location?
+        long end = System.nanoTime();
         System.out.println((end - start) + " " + totalNumPrimes + " " + totalSumPrimes);
 
         // Print the maximum primes found.
