@@ -38,10 +38,16 @@ public class Primes
     // Any n passed in will be larger than the minimum number in the set?? (todo)
     private synchronized static void updateMaxes(TreeSet<Integer> maxes, int n)
     {
-        if (maxes.size() == AMT_LARGEST)
-            maxes.pollFirst();
-
-        maxes.add(n);
+        // Add the value if the set has room or the value is larger than the smallest in the set.
+        if (maxes.size() < AMT_LARGEST)
+        {
+            maxes.add(n);
+        }
+        else if (maxes.first() < n)
+        {
+            maxes.pollFirst;
+            maxes.add(n);
+        }
     }
 
     public static void main(String [] args)
