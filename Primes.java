@@ -1,10 +1,10 @@
-// todo author and problem statement comment
+// Author: Anna MacInnis, Last update on 1/25/2024.
 // Finds and prints all primes on a program-specified range.
 
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+// Concurrent packages.
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -19,11 +19,7 @@ public class Primes
     // Determines the primality of an odd number n.
     private static boolean isPrime(int n)
     {
-        // Handle even numbers.
-        if (n < 2 || n % 2 == 0)
-            return (n == 2);
-
-        // Check remaining odd numbers up to sqrt(n).
+        // Check odd numbers up to sqrt(n).
         for (int i = 3; (i * i) <= n; i += 2)
         {
             if (n % i == 0)
@@ -50,13 +46,13 @@ public class Primes
 
     public static void main(String [] args)
     {
-        long start1 = System.nanoTime();
+        long start = System.nanoTime();
 
         // Safety check for valid upper limit.
         if (UPPER_LIMIT < 2)
             System.out.println("There are no primes less than 2!");
 
-        // Will be used to increment through odd numbers.
+        // To increment through odd numbers.
         AtomicInteger counter = new AtomicInteger(3);
         // Holds a group of the largest primes found.
         TreeSet<Integer> maxPrimes = new TreeSet<>();
@@ -120,9 +116,9 @@ public class Primes
                 totalNumPrimes += tasks.get(i).get().numPrimes;
                 totalSumPrimes += tasks.get(i).get().sumPrimes;
             } 
-            catch (Exception ie) 
+            catch (Exception e) 
             {
-                System.out.println(ie.getMessage());
+                System.out.println(e.getMessage());
             }
         }
 

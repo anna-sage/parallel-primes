@@ -6,8 +6,7 @@ Make sure you have a Java compiler installed.
 
 - Make sure you have navigated to the directory storing the file Primes.java.
 - To compile: type "javac Primes.java" and press enter.
-- To run: type "java Primes" and press enter. Then, enter the upper limit to check with no spaces 
-or extraneous characters and press enter.
+- To run: type "java Primes" and press enter.
 
 Output format: \<time taken in nanoseconds\> \<number of primes found\> \<sum of primes found\>
                \<top ten primes found in ascending order\>
