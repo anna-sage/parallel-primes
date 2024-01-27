@@ -8,14 +8,14 @@ Make sure you have a Java compiler installed.
 - To compile: type "javac Primes.java" and press enter.
 - To run: type "java Primes" and press enter.
 
-Output format: \<time taken in nanoseconds\> \<number of primes found\> \<sum of primes found\>
+Output format: \<time taken in seconds\> \<number of primes found\> \<sum of primes found\>
                \<top ten primes found in ascending order\>
 
 ## Summary of Approach
 Each thread uses the same isPrime() method concurrently. An atomic counter variable is used for 
 threads to obtain values to test. A treeset holds the top ten primes found in order.
 
-### Process of a single thread:
+Process of a single thread:
 - Obtain a number to test from the atomic counter variable, then increment the variable's value. 
 This operation is a critical section: No two or more threads can use this variable at the same time.
 - Call the isPrime() method to determine the number's primality. 
@@ -26,7 +26,7 @@ This operation is a critical section: No two or more threads can use this variab
 - Repeat the steps above until the number obtained is larger than the upper limit.
 - Return the object containing this thread's number of and sum of the primes it found.
 
-### After all Threads Complete:
+After all Threads Complete:
 - Each thread's individual numPrimes tracker can be added together to obtain the total number of 
 primes found. The same can be done to find the total sum of all the primes.
 - The tree set stores the top ten largest primes found.

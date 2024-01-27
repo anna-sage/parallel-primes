@@ -1,4 +1,4 @@
-// Author: Anna MacInnis, Last update on 1/25/2024.
+// Author: Anna MacInnis, Last update on 1/26/2024.
 // Finds and prints all primes on a program-specified range.
 
 import java.util.ArrayList;
@@ -15,9 +15,10 @@ public class Primes
     private static final int UPPER_LIMIT = 100000000;
     // Amount of maximum primes to track.
     private static final int AMT_LARGEST = 10;
+    private static final int NANOSEC_TO_SEC = 1000000000;
 
     // Determines the primality of an odd number n.
-    private static boolean isPrime(int n)
+    private static boolean oddIsPrime(int n)
     {
         // Check odd numbers up to sqrt(n).
         for (int i = 3; (i * i) <= n; i += 2)
@@ -72,7 +73,7 @@ public class Primes
                     int cur = counter.getAndAdd(2);
                     while (cur <= UPPER_LIMIT)
                     {
-                        if (isPrime(cur))
+                        if (oddIsPrime(cur))
                         {
                             infoP.numPrimes++;
                             infoP.sumPrimes += cur;
@@ -123,7 +124,8 @@ public class Primes
         }
 
         long end = System.nanoTime();
-        System.out.println((end - start) + " " + totalNumPrimes + " " + totalSumPrimes);
+        double runtime = (double) (end - start) / NANOSEC_TO_SEC;
+        System.out.println(runtime + " " + totalNumPrimes + " " + totalSumPrimes);
 
         // Print the maximum primes found.
         while (!maxPrimes.isEmpty())
